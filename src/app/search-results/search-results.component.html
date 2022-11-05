@@ -1,0 +1,28 @@
+<div class="spinner-border" role="status" *ngIf="searchService.isLoading"></div>
+
+<table class="table table-dark table-hover" *ngIf="!searchService.isLoading && (searchService.searchResult$ | async)!.length">
+	<thead>
+		<tr>
+			<th scope="col">#</th>
+			<th scope="col" style="width: 50%;">Name</th>
+			<th scope="col">Height</th>
+			<th scope="col">Weight</th>
+		</tr>
+	</thead>
+    <tbody>
+        <tr *ngFor="let person of searchService.searchResult$ | async; let i=index; let isLast=last; let isFirst=first">
+            <td scope="row" *ngIf="(searchService.searchResult$ | async)!.length > 1">
+                {{(!isLast && searchService.page != 1) ? searchService.page-1 : '' }}{{isLast ? searchService.page : '' }}{{isLast && !isFirst ? 0 : i+1 }}
+            </td>
+            <td scope="row" *ngIf="(searchService.searchResult$ | async)!.length == 1">1</td>
+            <td scope="row">{{ person.name }}</td>
+            <td scope="row">{{ person.height }} cm</td>
+            <td scope="row">{{ person.mass }} kg</td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="buttons">
+    <button type="button" class="btn btn-secondary" (click)="onPrevious()">&#60; Previous</button>
+    <button type="button" class="btn btn-secondary" (click)="onNext()">Next &#62;</button>
+</div>
